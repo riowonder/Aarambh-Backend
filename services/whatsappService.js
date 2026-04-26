@@ -1,0 +1,164 @@
+import axios from 'axios';
+import Admin from '../models/admin.js';
+import User from '../models/user.js';
+
+
+export const sendExpiryMessage = async (userId, plan, extra_days, expiryDate, gymId) => {
+    try {
+        const adminData = await Admin.findById(gymId);
+        const gymName = adminData?.gym_name || "Bodylyn Gym";
+
+        const userData = await User.findById(userId);
+        const userName = userData?.name || "Member";
+        let userPh = userData?.phone_number;
+        if (!userPh) {
+            throw new Error(`User with ID ${userId} does not have a phone number.`);
+        }
+
+        let planName = plan;
+        if (planName === 'Custom') {
+            planName = `Custom + ${extra_days} days`;
+        }
+
+        const expireDate = new Date(expiryDate).toLocaleDateString('en-GB'); // Format: DD/MM/YYYY
+
+        // const response = await axios({
+        //     url: 'https://graph.facebook.com/v22.0/747330215135915/messages',
+        //     method: 'POST',
+        //     headers: {
+        //         'Authorization': `Bearer ${process.env.WHATSAPP_TOKEN}`,
+        //         'Content-Type': 'application/json'
+        //     },
+        //     data: JSON.stringify({
+        //         messaging_product: "whatsapp",
+        //         to: userPh,    // change it to userPh
+        //         type: "template",
+        //         template: {
+        //             name: 'sub_exp',
+        //             language: {
+        //                 code: 'en'
+        //             },
+        //             components: [
+        //                 {
+        //                     type: "body",
+        //                     parameters: [
+        //                         { type: "text", text: userName },           // {{1}}
+        //                         { type: "text", text: planName },           // {{2}}
+        //                         { type: "text", text: gymName },            // {{3}} 
+        //                         { type: "text", text: expireDate },         // {{4}}
+        //                         { type: "text", text: gymName },            // {{5}}
+        //                         { type: "text", text: gymName }             // {{6}} 
+        //                     ]
+        //                 }
+        //             ]
+        //         }
+        //     })
+        // });
+        
+        const apikey = process.env.SMSTOKEN;
+        const url = `https://www.fast2sms.com/dev/whatsapp?authorization=${apikey}&message_id=7173&numbers=${userPh}&variables_values=${userName}|${planName}|${gymName}|${expireDate}`
+
+        const response = await axios.get(url);
+        console.log("WhatsApp message sent successfully!");
+        console.log("Message sent to phone number:", userPh);
+        return response;
+    } catch (err) {
+        console.error("Error in sendExpiryMessage:", err);
+        if (err.stack) {
+            console.error("Stack trace:", err.stack);
+        }
+        throw err;
+    }
+}
+
+export const sendReminderMessage = async (userId, plan, extra_days, expiryDate, gymId) => {
+    try {
+        const adminData = await Admin.findById(gymId);
+        const gymName = adminData?.gym_name || "Bodylyn Gym";
+
+        const userData = await User.findById(userId);
+        const userName = userData?.name || "Member";
+        let userPh = userData?.phone_number;
+        if (!userPh) {
+            throw new Error(`User with ID ${userId} does not have a phone number.`);
+        }
+
+        let planName = plan;
+        if (planName === 'Custom') {
+            planName = `Custom + ${extra_days} days`;
+        }
+
+        const expireDate = new Date(expiryDate).toLocaleDateString('en-GB'); // Format: DD/MM/YYYY
+
+        // const response = await axios({
+        //     url: 'https://graph.facebook.com/v22.0/747330215135915/messages',
+        //     method: 'POST',
+        //     headers: {
+        //         'Authorization': `Bearer ${process.env.WHATSAPP_TOKEN}`,
+        //         'Content-Type': 'application/json'
+        //     },
+        //     data: JSON.stringify({
+        //         messaging_product: "whatsapp",
+        //         to: userPh,
+        //         type: "template",
+        //         template: {
+        //             name: 'expiry_reminder',
+        //             language: {
+        //                 code: 'en'
+        //             },
+        //             components: [
+        //                 {
+        //                     type: "body",
+        //                     parameters: [
+        //                         { type: "text", text: userName },           // {{1}}
+        //                         { type: "text", text: planName },           // {{2}} 
+        //                         { type: "text", text: gymName },            // {{3}} 
+        //                         { type: "text", text: expiryDate },         // {{4}}
+        //                         { type: "text", text: gymName }             // {{5}}
+        //                     ]
+        //                 }
+        //             ]
+        //         }
+        //     })
+        // });
+        
+        const apikey = process.env.SMSTOKEN;
+        const url = `https://www.fast2sms.com/dev/whatsapp?authorization=${apikey}&message_id=7162&numbers=${userPh}&variables_values=${userName}|${planName}|${gymName}|${expireDate}`
+
+        const response = await axios.get(url);
+        console.log("WhatsApp message sent successfully!");
+        console.log("Message sent to phone number:", userPh);
+        return response;
+    } catch (err) {
+        console.error("Error in sendReminderMessage:", err);
+        if (err.stack) {
+            console.error("Stack trace:", err.stack);
+        }
+        throw err;
+    }
+}
+
+export const sendBirthdayMessage = async (userId) => {
+    try {
+        const userData = await User.findById(userId);
+        const userName = userData?.name || "Member";
+        let userPh = userData?.phone_number;
+        if (!userPh) {
+            throw new Error(`User with ID ${userId} does not have a phone number.`);
+        }
+
+        const apikey = process.env.SMSTOKEN;
+        const url = `https://www.fast2sms.com/dev/whatsapp?authorization=${apikey}&message_id=8250&phone_number_id=792445573959587&numbers=${userPh}&variables_values=${userName}`;
+
+        const response = await axios.get(url);
+        console.log("WhatsApp message sent successfully!");
+        console.log("Message sent to phone number:", userPh);
+        return response;
+    } catch (err) {
+        console.error("Error in sendBirthdayMessage:", err);
+        if (err.stack) {
+            console.error("Stack trace:", err.stack);
+        }
+        throw err;
+    }
+}
