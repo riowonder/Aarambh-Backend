@@ -10,6 +10,10 @@ import adminRoutes from '../routes/adminRoutes.js';
 import financeRoutes from '../routes/financeRoutes.js';
 import test from '../routes/test.js';
 import userRoutes from '../routes/userRoutes.js';
+import dns from "dns"
+
+//CHANGE DNS
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 dotenv.config();
 
