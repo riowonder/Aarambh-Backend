@@ -16,11 +16,6 @@ const userSchema = new mongoose.Schema({
     trim: true,
     unique: true
   },
-  password: {
-    type: String,
-    required: true,
-    trim: true
-  },
   dob: {
     type: Date
   },
@@ -28,10 +23,10 @@ const userSchema = new mongoose.Schema({
     type: String,
     trim: true
   },
-  aadhar_card: {
+  aadhar_number: {
     type: String,
     trim: true,
-    unique: true
+    sparse: true
   },
   height: {
     type: Number,
@@ -82,8 +77,18 @@ const userSchema = new mongoose.Schema({
   }
 }, { timestamps: true, strict: false });
 
-// Compound unique index for roll_no within a gym
-userSchema.index({ gym_id: 1, roll_no: 1 }, { unique: true });
+// Compound unique index for serial_no within a gym
+userSchema.index({ gym_id: 1, serial_no: 1 }, { unique: true });
+
+userSchema.index(
+  { aadhar_number: 1 },
+  {
+    unique: true,
+    partialFilterExpression: {
+      aadhar_number: { $exists: true, $ne: null }
+    }
+  }
+);
 
 const User = mongoose.model('User', userSchema);
 export default User;
