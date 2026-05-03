@@ -25,8 +25,7 @@ const userSchema = new mongoose.Schema({
   },
   aadhar_number: {
     type: String,
-    trim: true,
-    sparse: true
+    trim: true
   },
   height: {
     type: Number,
