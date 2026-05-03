@@ -10,7 +10,10 @@ export const getBirthdaysThisMonth = async (req, res) => {
         const endDate = new Date(today);
         endDate.setDate(endDate.getDate() + 30);
 
-        const users = await User.find({ gym_id: gymId }).lean();
+        const users = await User.find({ gym_id: gymId })
+            .populate({ path: 'subscriptions', options: { sort: { start_date: -1 } } })
+            .lean();
+
 
         const upcomingWithin30Days = users
             .filter(u => u.dob) // ensure dob exists
