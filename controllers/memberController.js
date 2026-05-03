@@ -88,12 +88,12 @@ function getSubscriptionStatus(start_date, end_date) {
 
 export const addMember = async (req, res) => {
   try {
-    const { roll_no, name, phone_number, height, weight, age, gender, address, dob } = req.body;
+    const { roll_no, name, phone_number, height, weight, age, gender, address, dob, email } = req.body;
     const adminId = req.user.id;
 
     // Validate required fields
-    if (!roll_no || !name || !phone_number) {
-      return res.status(400).json({ success: false, message: 'Missing required fields: roll_no, name, phone_number are required.' });
+    if (!roll_no || !name || !phone_number || !email) {
+      return res.status(400).json({ success: false, message: 'Missing required fields: roll_no, name, phone_number, email are required.' });
     }
 
     // Validate phone number (must be 10 digits)
@@ -148,11 +148,13 @@ export const addMember = async (req, res) => {
         weight: weight ? Number(weight) : undefined,
         age: age ? Number(age) : undefined,
         gender,
+        email,
         address,
         image: imageUrl,
         gym_id: adminId,
         subscriptions: [],
         dob: formattedDob,
+        is_approved: true
       });
       await member.save();
       await member.populate({ path: 'subscriptions', options: { sort: { start_date: -1 } } });

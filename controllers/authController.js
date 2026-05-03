@@ -414,21 +414,15 @@ export const logout = async (req, res) => {
 
 export const userLogin = async (req, res) => {
     try {
-        const { email, password } = req.body;
+        const { email, serial_no } = req.body;
 
         // Check if user exists
-        const user = await User.findOne({ email: email.toLowerCase() });
+        const user = await User.findOne({ email: email.toLowerCase(), serial_no });
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });
         }
 
-        // Check password
-        const isPasswordValid = await bcrypt.compare(password, user.password);
-        if (!isPasswordValid) {
-            return res.status(401).json({ success: false, message: "Invalid credentials" });
-        }
-
-        if(user.is_approved === false) {
+        if (user.is_approved === false) {
             return res.status(403).json({ success: false, message: "User is not approved" });
         }
 
@@ -460,7 +454,7 @@ export const userLogin = async (req, res) => {
 
 export const userRegister = async (req, res) => {
     try {
-        const { name, email, password, dob, aadhar, secret_key, phone, blood_group, age, address, height, weight, gender } = req.body;
+        const { name, email, dob, aadhar, secret_key, phone, blood_group, age, address, height, weight, gender } = req.body;
 
         console.log(req.body);
 
@@ -499,13 +493,11 @@ export const userRegister = async (req, res) => {
         }
 
         // Create new user
-        const newUser = new User({
+        const newUserData = {
             name,
             email: email.toLowerCase(),
-            password: await bcrypt.hash(password, 10),
             gym_id,
             dob,
-            aadhar_card: aadhar,
             phone_number: phone,
             blood_group,
             height,
@@ -514,7 +506,14 @@ export const userRegister = async (req, res) => {
             age,
             address,
             image: imageUrl
-        });
+        };
+
+        // ✅ Only add aadhar if it exists
+        if (aadhar && aadhar.trim() !== "") {
+            newUserData.aadhar_number = aadhar;
+        }
+
+        const newUser = new User(newUserData);
 
         await newUser.save();
 
