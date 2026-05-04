@@ -3,6 +3,7 @@ import Manager from '../models/manager.js';
 import bcrypt from 'bcrypt';
 import { sendInvitation } from '../utils/otp.js';
 import User from '../models/user.js'
+import { sendApprovalEmail } from '../mails/approvalMsg.js';
 
 // ...existing code...
 
@@ -180,6 +181,23 @@ export const approveUser = async (req, res) => {
         message: 'User not found'
       });
     }
+
+    // get user name, email and dob
+    const name = user.name;
+    const email = user.email;
+    const dobRaw = user.dob;
+    let dob = null;
+    if (dobRaw) {
+      const dateObj = dobRaw instanceof Date ? dobRaw : new Date(dobRaw);
+      if (!isNaN(dateObj.getTime())) {
+      const dd = String(dateObj.getDate()).padStart(2, '0');
+      const mm = String(dateObj.getMonth() + 1).padStart(2, '0');
+      const yyyy = dateObj.getFullYear();
+      dob = `${dd}/${mm}/${yyyy}`; // e.g. "26/05/2002"
+      }
+    }
+
+    await sendApprovalEmail(email, name, dob);
 
     res.status(200).json({
       success: true,

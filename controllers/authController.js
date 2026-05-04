@@ -414,10 +414,41 @@ export const logout = async (req, res) => {
 
 export const userLogin = async (req, res) => {
     try {
-        const { email, serial_no } = req.body;
+        const { email, dob } = req.body;
+        if (!email || !dob) {
+            return res.status(400).json({ success: false, message: "Email and dob are required" });
+        }
 
-        // Check if user exists
-        const user = await User.findOne({ email: email.toLowerCase(), serial_no });
+        // Parse provided dob into a UTC start and end range (so we compare by date regardless of format/timezone)
+        let startOfDayUTC, endOfDayUTC;
+        try {
+            // If format is DD/MM/YYYY (common from frontend), parse accordingly
+            if (typeof dob === 'string' && dob.includes('/')) {
+                const parts = dob.split('/').map(p => p.trim());
+                if (parts.length !== 3) throw new Error('Invalid dob format');
+                const [dd, mm, yyyy] = parts;
+                const day = parseInt(dd, 10);
+                const month = parseInt(mm, 10) - 1; // zero-based
+                const year = parseInt(yyyy, 10);
+                if (Number.isNaN(day) || Number.isNaN(month) || Number.isNaN(year)) throw new Error('Invalid dob numbers');
+                startOfDayUTC = new Date(Date.UTC(year, month, day));
+            } else {
+                // Try parsing ISO or other date strings
+                const parsed = new Date(dob);
+                if (Number.isNaN(parsed.getTime())) throw new Error('Invalid dob format');
+                startOfDayUTC = new Date(Date.UTC(parsed.getUTCFullYear(), parsed.getUTCMonth(), parsed.getUTCDate()));
+            }
+
+            endOfDayUTC = new Date(startOfDayUTC.getTime() + 24 * 60 * 60 * 1000);
+        } catch (parseErr) {
+            return res.status(400).json({ success: false, message: 'Invalid date of birth format' });
+        }
+
+        // Find user by email and dob within the same UTC day (handles stored Date objects)
+        const user = await User.findOne({
+            email: email.toLowerCase(),
+            dob: { $gte: startOfDayUTC, $lt: endOfDayUTC }
+        });
         if (!user) {
             return res.status(404).json({ success: false, message: "User not found" });
         }
@@ -454,7 +485,7 @@ export const userLogin = async (req, res) => {
 
 export const userRegister = async (req, res) => {
     try {
-        const { name, email, dob, aadhar, secret_key, phone, blood_group, age, address, height, weight, gender } = req.body;
+        const { name, email, dob, aadhar, phone, blood_group, age, address, height, weight, gender } = req.body;
 
         console.log(req.body);
 
@@ -462,11 +493,6 @@ export const userRegister = async (req, res) => {
         const existingUser = await User.findOne({ email: email.toLowerCase() });
         if (existingUser) {
             return res.status(409).json({ success: false, message: "User already exists" });
-        }
-
-        // check if the secret is correct
-        if (secret_key !== process.env.SECRET) {
-            return res.status(403).json({ success: false, message: "Invalid secret code" });
         }
 
         // get the gym_id  (fix this, decrypt the hash before comparing......)

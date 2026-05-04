@@ -77,7 +77,15 @@ const userSchema = new mongoose.Schema({
 }, { timestamps: true, strict: false });
 
 // Compound unique index for serial_no within a gym
-userSchema.index({ gym_id: 1, serial_no: 1 }, { unique: true });
+userSchema.index(
+  { gym_id: 1, serial_no: 1 },
+  {
+    unique: true,
+    partialFilterExpression: {
+      serial_no: { $exists: true, $ne: null }
+    }
+  }
+);
 
 userSchema.index(
   { aadhar_number: 1 },
