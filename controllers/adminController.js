@@ -197,7 +197,9 @@ export const approveUser = async (req, res) => {
       }
     }
 
-    await sendApprovalEmail(email, name, dob);
+    if(email && email.trim() !== "") {
+      await sendApprovalEmail(email, name, dob);
+    }
 
     res.status(200).json({
       success: true,

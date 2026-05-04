@@ -414,9 +414,9 @@ export const logout = async (req, res) => {
 
 export const userLogin = async (req, res) => {
     try {
-        const { email, dob } = req.body;
-        if (!email || !dob) {
-            return res.status(400).json({ success: false, message: "Email and dob are required" });
+        const { phone, dob } = req.body;
+        if (!phone || !dob) {
+            return res.status(400).json({ success: false, message: "Phone and dob are required" });
         }
 
         // Parse provided dob into a UTC start and end range (so we compare by date regardless of format/timezone)
@@ -444,9 +444,9 @@ export const userLogin = async (req, res) => {
             return res.status(400).json({ success: false, message: 'Invalid date of birth format' });
         }
 
-        // Find user by email and dob within the same UTC day (handles stored Date objects)
+        // Find user by phone and dob within the same UTC day (handles stored Date objects)
         const user = await User.findOne({
-            email: email.toLowerCase(),
+            phone_number: phone.trim(),
             dob: { $gte: startOfDayUTC, $lt: endOfDayUTC }
         });
         if (!user) {
@@ -490,7 +490,7 @@ export const userRegister = async (req, res) => {
         console.log(req.body);
 
         // Check if user already exists
-        const existingUser = await User.findOne({ email: email.toLowerCase() });
+        const existingUser = await User.findOne({ phone_number: phone });
         if (existingUser) {
             return res.status(409).json({ success: false, message: "User already exists" });
         }
@@ -518,12 +518,37 @@ export const userRegister = async (req, res) => {
             }
         }
 
+        // Parse dob into Date (support DD/MM/YYYY or ISO)
+        let formattedDob = null;
+        if (dob) {
+            try {
+                if (typeof dob === 'string' && dob.includes('/')) {
+                    const parts = dob.split('/').map(p => p.trim());
+                    if (parts.length === 3) {
+                        const [dd, mm, yyyy] = parts;
+                        const day = parseInt(dd, 10);
+                        const month = parseInt(mm, 10) - 1;
+                        const year = parseInt(yyyy, 10);
+                        if (!Number.isNaN(day) && !Number.isNaN(month) && !Number.isNaN(year)) {
+                            formattedDob = new Date(Date.UTC(year, month, day));
+                        }
+                    }
+                } else {
+                    const parsed = new Date(dob);
+                    if (!Number.isNaN(parsed.getTime())) {
+                        formattedDob = parsed;
+                    }
+                }
+            } catch (parseErr) {
+                formattedDob = null;
+            }
+        }
+
         // Create new user
         const newUserData = {
             name,
-            email: email.toLowerCase(),
             gym_id,
-            dob,
+            dob: formattedDob,
             phone_number: phone,
             blood_group,
             height,
@@ -533,6 +558,10 @@ export const userRegister = async (req, res) => {
             address,
             image: imageUrl
         };
+
+        if(email && email.trim() !== "") {
+            newUserData.email = email.toLowerCase();
+        }
 
         // ✅ Only add aadhar if it exists
         if (aadhar && aadhar.trim() !== "") {

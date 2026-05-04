@@ -104,9 +104,28 @@ export const addMember = async (req, res) => {
     // validate dob if provided, if not then set to null
     let formattedDob = null;
     if (dob) {
-      const d = new Date(dob);
-      formattedDob = isNaN(d.getTime()) ? null : d; // invalid date → null
-    }
+            try {
+                if (typeof dob === 'string' && dob.includes('/')) {
+                    const parts = dob.split('/').map(p => p.trim());
+                    if (parts.length === 3) {
+                        const [dd, mm, yyyy] = parts;
+                        const day = parseInt(dd, 10);
+                        const month = parseInt(mm, 10) - 1;
+                        const year = parseInt(yyyy, 10);
+                        if (!Number.isNaN(day) && !Number.isNaN(month) && !Number.isNaN(year)) {
+                            formattedDob = new Date(Date.UTC(year, month, day));
+                        }
+                    }
+                } else {
+                    const parsed = new Date(dob);
+                    if (!Number.isNaN(parsed.getTime())) {
+                        formattedDob = parsed;
+                    }
+                }
+            } catch (parseErr) {
+                formattedDob = null;
+            }
+        }
 
     // Check for duplicate roll_no
     let existing;
