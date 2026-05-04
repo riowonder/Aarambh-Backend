@@ -304,7 +304,7 @@ export const getMembers = async (req, res) => {
         if (hasUpcoming) {
           daysLeftDisplay = 'Yet to start';
         } else {
-          daysLeftDisplay = 'No active subscription';
+          daysLeftDisplay = 'No active Plan';
         }
       }
 
