@@ -6,7 +6,7 @@ export const sendApprovalEmail = async (email, name, dob) => {
     const mailOptions = {
         from: `"Aarambh Gym Admin" <${process.env.OTP_EMAIL}>`,
         to: email,
-        subject: "🎉 Your Aarambh Account Has Been Approved!",
+        subject: "Your Aarambh Account Has Been Approved!",
         html: `
             <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 520px; margin: auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 10px; background-color: #ffffff;">
                 

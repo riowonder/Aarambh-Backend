@@ -37,14 +37,14 @@ export const sendmail = async (email) => {
 
         // Send OTP email
         const mailOptions = {
-            from: `"Zenith Manager Support" <${process.env.OTP_EMAIL}>`,
+            from: `"Aarambh Manager Support" <${process.env.OTP_EMAIL}>`,
             to: email,
-            subject: "🔐 Zenith Manager OTP Verification Code",
+            subject: "🔐 Aarambh Manager OTP Verification Code",
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
-                    <h2 style="text-align: center; color: #333;">Zenith Manager OTP Verification</h2>
+                    <h2 style="text-align: center; color: #333;">Aarambh Manager OTP Verification</h2>
                     <p>Hello,</p>
-                    <p>Thank you for using <strong>Zenith Manager</strong>! Please use the following OTP:</p>
+                    <p>Thank you for using <strong>Aarambh Manager</strong>! Please use the following OTP:</p>
                     <div style="text-align: center; font-size: 22px; font-weight: bold; background: #007bff; color: #fff; padding: 10px; border-radius: 5px; width: fit-content; margin: 10px auto;">
                         ${OTP}
                     </div>
@@ -52,7 +52,7 @@ export const sendmail = async (email) => {
                     <p>If you did not request this, you can safely ignore this email.</p>
                     <br>
                     <p style="color: #555;">Best regards,</p>
-                    <p><strong>Zenith Manager Team</strong></p>
+                    <p><strong>Aarambh Fitness Team</strong></p>
                 </div>
             `
         };
@@ -95,14 +95,14 @@ export const sendResetPasswordMail = async (email) => {
 
         // Send OTP email
         const mailOptions = {
-            from: `"Zenith Manager Support" <${process.env.OTP_EMAIL}>`,
+            from: `"Aarambh Manager Support" <${process.env.OTP_EMAIL}>`,
             to: email,
-            subject: "🔐 Zenith Manager Password Reset OTP",
+            subject: "🔐 Aarambh Manager Password Reset OTP",
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
                     <h2 style="text-align: center; color: #333;">Password Reset OTP</h2>
                     <p>Hello,</p>
-                    <p>You have requested to reset your password for <strong>Zenith Manager</strong>. Please use the following OTP:</p>
+                    <p>You have requested to reset your password for <strong>Aarambh Manager</strong>. Please use the following OTP:</p>
                     <div style="text-align: center; font-size: 22px; font-weight: bold; background: #007bff; color: #fff; padding: 10px; border-radius: 5px; width: fit-content; margin: 10px auto;">
                         ${OTP}
                     </div>
@@ -110,7 +110,7 @@ export const sendResetPasswordMail = async (email) => {
                     <p>If you did not request this password reset, you can safely ignore this email.</p>
                     <br>
                     <p style="color: #555;">Best regards,</p>
-                    <p><strong>Zenith Manager Team</strong></p>
+                    <p><strong>Aarambh Manager Team</strong></p>
                 </div>
             `
         };
@@ -152,14 +152,14 @@ export const sendUserResetPasswordMail = async (email) => {
 
         // Send OTP email
         const mailOptions = {
-            from: `"Zenith Manager Support" <${process.env.OTP_EMAIL}>`,
+            from: `"Aarambh Manager Support" <${process.env.OTP_EMAIL}>`,
             to: email,
-            subject: "🔐 Zenith Manager User Password Reset OTP",
+            subject: "🔐 Aarambh Manager User Password Reset OTP",
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
                     <h2 style="text-align: center; color: #333;">Password Reset OTP</h2>
                     <p>Hello,</p>
-                    <p>You have requested to reset your password for <strong>Zenith Manager</strong>. Please use the following OTP:</p>
+                    <p>You have requested to reset your password for <strong>Aarambh Manager</strong>. Please use the following OTP:</p>
                     <div style="text-align: center; font-size: 22px; font-weight: bold; background: #007bff; color: #fff; padding: 10px; border-radius: 5px; width: fit-content; margin: 10px auto;">
                         ${OTP}
                     </div>
@@ -167,7 +167,7 @@ export const sendUserResetPasswordMail = async (email) => {
                     <p>If you did not request this password reset, you can safely ignore this email.</p>
                     <br>
                     <p style="color: #555;">Best regards,</p>
-                    <p><strong>Zenith Manager Team</strong></p>
+                    <p><strong>Aarambh Manager Team</strong></p>
                 </div>
             `
         };
@@ -199,25 +199,25 @@ export const sendInvitation = async (email, gym_name, admin_name, your_email, yo
 
         // Send invitation email
         const mailOptions = {
-            from: `"Zenith Manager Support" <${process.env.OTP_EMAIL}>`,
+            from: `"Aarambh Manager Support" <${process.env.OTP_EMAIL}>`,
             to: your_email,
-            subject: `🎯 You're Invited to Join ${gym_name} on Zenith Manager`,
+            subject: `🎯 You're Invited to Join ${gym_name} on Aarambh Manager`,
             html: `
                 <div style="font-family: Arial, sans-serif; max-width: 500px; margin: auto; padding: 20px; border: 1px solid #ddd; border-radius: 8px; background-color: #f9f9f9;">
                     <h2 style="text-align: center; color: #333;">Manager Invitation</h2>
                     <p>Hello,</p>
-                    <p>You have been invited by <strong>${admin_name}</strong> to join <strong>${gym_name}</strong> as a manager on <strong>Zenith Manager</strong>.</p>
+                    <p>You have been invited by <strong>${admin_name}</strong> to join <strong>${gym_name}</strong> as a manager on <strong>Aarambh Manager</strong>.</p>
                     <p>Here are your login credentials:</p>
                     <div style="background: #f0f0f0; padding: 15px; border-radius: 5px; margin: 15px 0;">
                         <p><strong>Email:</strong> ${your_email}</p>
                         <p><strong>Username:</strong> ${your_username}</p>
                         <p><strong>Password:</strong> ${your_password}</p>
                     </div>
-                    <p>Please use these credentials to log in to your Zenith Manager account. We recommend changing your password after your first login for security purposes.</p>
+                    <p>Please use these credentials to log in to your Aarambh Manager account. We recommend changing your password after your first login for security purposes.</p>
                     <p>If you have any questions or need assistance, please don't hesitate to contact us.</p>
                     <br>
                     <p style="color: #555;">Best regards,</p>
-                    <p><strong>Zenith Manager Team</strong></p>
+                    <p><strong>Aarambh Manager Team</strong></p>
                 </div>
             `
         };
