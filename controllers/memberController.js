@@ -88,16 +88,18 @@ function getSubscriptionStatus(start_date, end_date) {
 
 export const addMember = async (req, res) => {
   try {
-    const { roll_no, name, phone_number, height, weight, age, gender, address, dob, email } = req.body;
+    const { serial_no, name, phone_number, height, weight, age, gender, address, dob, email } = req.body;
     const adminId = req.user.id;
 
     // Validate required fields
-    if (!roll_no || !name || !phone_number || !email) {
-      return res.status(400).json({ success: false, message: 'Missing required fields: roll_no, name, phone_number, email are required.' });
+    if (!serial_no || !name || !phone_number) {
+      console.log('Validation error: Missing required fields', { serial_no, name, phone_number });
+      return res.status(400).json({ success: false, message: 'Missing required fields: serial_no, name, phone_number are required.' });
     }
 
     // Validate phone number (must be 10 digits)
     if (!/^\d{10}$/.test(phone_number)) {
+      console.log('Validation error: Invalid phone number', { phone_number });
       return res.status(400).json({ success: false, message: 'Phone number must be exactly 10 digits.' });
     }
 
@@ -130,13 +132,14 @@ export const addMember = async (req, res) => {
     // Check for duplicate roll_no
     let existing;
     try {
-      existing = await User.findOne({ roll_no, gym_id: adminId });
+      existing = await User.findOne({ serial_no, gym_id: adminId });
     } catch (dbErr) {
       console.error('Database error during duplicate check:', dbErr);
       return res.status(500).json({ success: false, message: 'Database error during duplicate check.' });
     }
     if (existing) {
-      return res.status(400).json({ success: false, message: 'Member with this roll number already exists in this gym.' });
+      console.log('Validation error: Duplicate serial_no', { serial_no });
+      return res.status(400).json({ success: false, message: 'Member with this serial number already exists in this gym.' });
     }
 
     // Upload image to Cloudinary (if provided)
@@ -160,7 +163,7 @@ export const addMember = async (req, res) => {
     let member;
     try {
       member = new User({
-        serial_no: roll_no,
+        serial_no,
         name,
         phone_number,
         height: height ? Number(height) : undefined,
