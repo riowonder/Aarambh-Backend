@@ -27,7 +27,8 @@ app.use(cookieParser());
 // -------------------- CORS --------------------
 const corsOptions = {
   origin: [
-    "http://localhost:5173"
+    "http://localhost:5173",
+    "https://aarambh-frontend.vercel.app"
   ],
   methods: ["GET","POST","PUT","DELETE","PATCH","HEAD"],
   credentials: true,
