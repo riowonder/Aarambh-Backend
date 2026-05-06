@@ -563,6 +563,8 @@ export const userRegister = async (req, res) => {
             newUserData.email = email.toLowerCase();
         }
 
+        newUserData.email = "";
+
         // ✅ Only add aadhar if it exists
         if (aadhar && aadhar.trim() !== "") {
             newUserData.aadhar_number = aadhar;
