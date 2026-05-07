@@ -27,6 +27,7 @@ app.use(cookieParser());
 // -------------------- CORS --------------------
 const corsOptions = {
   origin: [
+    "https://aarambhfitness.in",
     "https://aarambh-frontend.vercel.app",
     "http://localhost:5173"
   ],
