@@ -36,6 +36,8 @@ const corsOptions = {
   allowedHeaders: ["Content-Type","Authorization"]
 };
 app.use(cors(corsOptions));
+// make sure OPTIONS preflight is handled:
+app.options('*', cors(corsOptions));
 
 // -------------------- Routes --------------------
 app.use('/auth', authRoutes);

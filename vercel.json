@@ -12,7 +12,7 @@
   ],
   "routes": [
     {
-      "src": "/(auth|member|dashboard|admin|finance|test)(.*)",
+      "src": "/(auth|member|dashboard|admin|finance|test|user)(.*)",
       "dest": "/api/app.js"
     },
     {
