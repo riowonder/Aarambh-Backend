@@ -4,50 +4,117 @@ const resend = new Resend(process.env.RESEND_API_KEY);
 
 export const sendApprovalEmail = async (email, name, dob) => {
     const mailOptions = {
-        from: `"Aarambh Gym Admin" <${process.env.OTP_EMAIL}>`,
+        from: `"Aarambh Fitness" <${process.env.OTP_EMAIL}>`,
         to: email,
-        subject: "Your Aarambh Account Has Been Approved!",
+        subject: "Your Aarambh Fitness Account Has Been Approved!",
         html: `
-            <div style="font-family: 'Segoe UI', Arial, sans-serif; max-width: 520px; margin: auto; padding: 24px; border: 1px solid #e5e7eb; border-radius: 10px; background-color: #ffffff;">
-                
-                <div style="text-align: center; margin-bottom: 20px;">
-                    <h2 style="color: #111827; margin-bottom: 5px;">Welcome to Aarambh</h2>
-                    <p style="color: #6b7280; font-size: 14px;">Your account has been successfully approved</p>
-                </div>
+            <!DOCTYPE html>
+            <html>
+            <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            </head>
+            <body style="margin: 0; padding: 0; background-color: #f5f5f7; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, 'Helvetica Neue', Arial, sans-serif;">
+                <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f5f5f7;">
+                    <tr>
+                        <td align="center" style="padding: 0;">
+                            <!-- Main Container -->
+                            <table width="100%" cellpadding="0" cellspacing="0" style="max-width: 100%; background-color: #ffffff;">
+                                
+                                <!-- Header with gradient -->
+                                <tr>
+                                    <td style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); padding: 48px 5%; text-align: center;">
+                                        <h1 style="margin: 0; color: #ffffff; font-size: 32px; font-weight: 700; letter-spacing: -0.5px;">
+                                            Welcome to Aarambh Fitness
+                                        </h1>
+                                        <p style="margin: 12px 0 0 0; color: rgba(255, 255, 255, 0.9); font-size: 16px; font-weight: 400;">
+                                            Your account has been approved
+                                        </p>
+                                    </td>
+                                </tr>
 
-                <p style="color: #374151;">Hi <strong>${name}</strong>,</p>
+                                <!-- Content -->
+                                <tr>
+                                    <td style="padding: 48px 5%;">
+                                        <p style="margin: 0 0 24px 0; color: #1d1d1f; font-size: 17px; line-height: 1.6;">
+                                            Hi <strong style="font-weight: 600;">${name}</strong>,
+                                        </p>
 
-                <p style="color: #374151;">
-                    We're excited to inform you that your account has been approved by <strong>Aarambh Gym</strong>.
-                    You can now log in and start using your account.
-                </p>
+                                        <p style="margin: 0 0 32px 0; color: #424245; font-size: 16px; line-height: 1.7;">
+                                            Great news! Your account has been approved by <strong style="font-weight: 600; color: #1d1d1f;">Aarambh Fitness</strong>. 
+                                            You're all set to begin your fitness journey with us.
+                                        </p>
 
-                <div style="background-color: #f3f4f6; padding: 16px; border-radius: 8px; margin: 20px 0;">
-                    <p style="margin: 0; color: #111827;"><strong>Login Credentials:</strong></p>
-                    <p style="margin: 8px 0; color: #374151;">📧 Email: <strong>${email}</strong></p>
-                    <p style="margin: 8px 0; color: #374151;">🔑 Password (DOB): <strong>${dob}</strong></p>
-                </div>
+                                        <!-- Credentials Card -->
+                                        <table width="100%" cellpadding="0" cellspacing="0" style="background-color: #f9fafb; border-radius: 12px; border: 1px solid #e5e7eb; margin-bottom: 32px;">
+                                            <tr>
+                                                <td style="padding: 28px 5%;">
+                                                    <p style="margin: 0 0 20px 0; color: #1d1d1f; font-size: 15px; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px;">
+                                                        Your Login Credentials
+                                                    </p>
+                                                    
+                                                    <table width="100%" cellpadding="0" cellspacing="0">
+                                                        <tr>
+                                                            <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
+                                                                <p style="margin: 0; color: #6b7280; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px;">
+                                                                    Email
+                                                                </p>
+                                                                <p style="margin: 6px 0 0 0; color: #1d1d1f; font-size: 16px; font-weight: 600;">
+                                                                    ${email}
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                        <tr>
+                                                            <td style="padding: 12px 0 0 0;">
+                                                                <p style="margin: 0; color: #6b7280; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px;">
+                                                                    Password (Date of Birth)
+                                                                </p>
+                                                                <p style="margin: 6px 0 0 0; color: #1d1d1f; font-size: 16px; font-weight: 600;">
+                                                                    ${dob}
+                                                                </p>
+                                                            </td>
+                                                        </tr>
+                                                    </table>
+                                                </td>
+                                            </tr>
+                                        </table>
 
-                <p style="color: #374151;">
-                    Please keep your credentials secure and consider updating your password after your first login.
-                </p>
 
-                <div style="text-align: center; margin: 25px 0;">
-                    <a href="https://aarambhfitness.in/user-login" style="background-color: #2563eb; color: #ffffff; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">
-                        Login to Your Account
-                    </a>
-                </div>
+                                        <!-- CTA Button -->
+                                        <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 32px;">
+                                            <tr>
+                                                <td align="center">
+                                                    <a href="https://aarambhfitness.in/user-login" style="display: inline-block; background-color: #667eea; color: #ffffff; padding: 16px 40px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; letter-spacing: 0.3px;">
+                                                        Login to Your Account
+                                                    </a>
+                                                </td>
+                                            </tr>
+                                        </table>
 
-                <p style="color: #6b7280; font-size: 14px;">
-                    If you have any questions or need assistance, feel free to contact us.
-                </p>
+                                        <p style="margin: 0; color: #6b7280; font-size: 14px; line-height: 1.6; text-align: center;">
+                                            If you have any questions or need assistance, feel free to contact us.
+                                        </p>
+                                    </td>
+                                </tr>
 
-                <br/>
+                                <!-- Footer -->
+                                <tr>
+                                    <td style="background-color: #f9fafb; padding: 32px 5%; border-top: 1px solid #e5e7eb;">
+                                        <p style="margin: 0 0 4px 0; color: #424245; font-size: 15px;">
+                                            Best regards,
+                                        </p>
+                                        <p style="margin: 0; color: #1d1d1f; font-size: 16px; font-weight: 600;">
+                                            Aarambh Fitness Team
+                                        </p>
+                                    </td>
+                                </tr>
 
-                <p style="color: #374151; margin-bottom: 0;">Best regards,</p>
-                <p style="color: #111827; font-weight: 600; margin-top: 4px;">Aarambh Gym Team</p>
-
-            </div>
+                            </table>
+                        </td>
+                    </tr>
+                </table>
+            </body>
+            </html>
         `
     };
 

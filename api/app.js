@@ -13,7 +13,7 @@ import userRoutes from '../routes/userRoutes.js';
 import dns from "dns"
 
 //CHANGE DNS
-// dns.setServers(["1.1.1.1", "8.8.8.8"]);
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 dotenv.config();
 
