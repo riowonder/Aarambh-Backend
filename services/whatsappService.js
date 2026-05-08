@@ -6,7 +6,7 @@ import User from '../models/user.js';
 export const sendExpiryMessage = async (userId, plan, extra_days, expiryDate, gymId) => {
     try {
         const adminData = await Admin.findById(gymId);
-        const gymName = adminData?.gym_name || "Bodylyn Gym";
+        const gymName = adminData?.gym_name || "Aarambh Gym";
 
         const userData = await User.findById(userId);
         const userName = userData?.name || "Member";
@@ -74,7 +74,7 @@ export const sendExpiryMessage = async (userId, plan, extra_days, expiryDate, gy
 export const sendReminderMessage = async (userId, plan, extra_days, expiryDate, gymId) => {
     try {
         const adminData = await Admin.findById(gymId);
-        const gymName = adminData?.gym_name || "Bodylyn Gym";
+        const gymName = adminData?.gym_name || "Aarambh Gym";
 
         const userData = await User.findById(userId);
         const userName = userData?.name || "Member";
@@ -138,27 +138,27 @@ export const sendReminderMessage = async (userId, plan, extra_days, expiryDate, 
     }
 }
 
-export const sendBirthdayMessage = async (userId) => {
-    try {
-        const userData = await User.findById(userId);
-        const userName = userData?.name || "Member";
-        let userPh = userData?.phone_number;
-        if (!userPh) {
-            throw new Error(`User with ID ${userId} does not have a phone number.`);
-        }
+// export const sendBirthdayMessage = async (userId) => {
+//     try {
+//         const userData = await User.findById(userId);
+//         const userName = userData?.name || "Member";
+//         let userPh = userData?.phone_number;
+//         if (!userPh) {
+//             throw new Error(`User with ID ${userId} does not have a phone number.`);
+//         }
 
-        const apikey = process.env.SMSTOKEN;
-        const url = `https://www.fast2sms.com/dev/whatsapp?authorization=${apikey}&message_id=8250&phone_number_id=792445573959587&numbers=${userPh}&variables_values=${userName}`;
+//         const apikey = process.env.SMSTOKEN;
+//         const url = `https://www.fast2sms.com/dev/whatsapp?authorization=${apikey}&message_id=8250&phone_number_id=792445573959587&numbers=${userPh}&variables_values=${userName}`;
 
-        const response = await axios.get(url);
-        console.log("WhatsApp message sent successfully!");
-        console.log("Message sent to phone number:", userPh);
-        return response;
-    } catch (err) {
-        console.error("Error in sendBirthdayMessage:", err);
-        if (err.stack) {
-            console.error("Stack trace:", err.stack);
-        }
-        throw err;
-    }
-}
+//         const response = await axios.get(url);
+//         console.log("WhatsApp message sent successfully!");
+//         console.log("Message sent to phone number:", userPh);
+//         return response;
+//     } catch (err) {
+//         console.error("Error in sendBirthdayMessage:", err);
+//         if (err.stack) {
+//             console.error("Stack trace:", err.stack);
+//         }
+//         throw err;
+//     }
+// }

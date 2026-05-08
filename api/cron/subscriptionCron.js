@@ -3,7 +3,7 @@
 import connectDB from "../../config/db.js"; // or your DB connect util
 import Subscription from "../../models/subscription.js"; // adjust path as needed
 import User from "../../models/user.js";
-import { sendExpiryMessage, sendReminderMessage, sendBirthdayMessage } from "../../services/whatsappService.js";
+import { sendExpiryMessage, sendReminderMessage } from "../../services/whatsappService.js";
 
 export default async function handler(req, res) {
     if (req.method !== "GET") {
@@ -77,16 +77,16 @@ export default async function handler(req, res) {
         console.log(`📩 Sent reminders for ${reminderSubs.length} subscriptions expiring in 2 days`);
 
         // 3️⃣ Handle birthday messages, the current gym id is for testing purpose
-        const members = await User.find({ gym_id: "685959f2721ecdc1ff4f9cf4" }); // Fetch all members from Bodylyn Gym 
-        const birthdayMembers = getMembersWhoseBirthdayIsToday(members);  
+        // const members = await User.find({ gym_id: "685959f2721ecdc1ff4f9cf4" }); // Fetch all members from Bodylyn Gym 
+        // const birthdayMembers = getMembersWhoseBirthdayIsToday(members);  
 
-        for (const member of birthdayMembers) {
-            try {
-                await sendBirthdayMessage(member._id);
-            } catch (err) {
-                console.error(`❌ Error sending birthday message for user ${member._id}:`, err);
-            }
-        }
+        // for (const member of birthdayMembers) {
+        //     try {
+        //         await sendBirthdayMessage(member._id);
+        //     } catch (err) {
+        //         console.error(`❌ Error sending birthday message for user ${member._id}:`, err);
+        //     }
+        // }
 
         return res.status(200).json({
             success: true,
@@ -100,13 +100,13 @@ export default async function handler(req, res) {
 }
 
 
-function getMembersWhoseBirthdayIsToday(members) {
-    const today = new Date();
-    const todayDay = today.getDate();
-    const todayMonth = today.getMonth() + 1; // Months are zero-based
+// function getMembersWhoseBirthdayIsToday(members) {
+//     const today = new Date();
+//     const todayDay = today.getDate();
+//     const todayMonth = today.getMonth() + 1; // Months are zero-based
 
-    return members.filter(member => {
-        const memberBirthday = new Date(member.dob);
-        return memberBirthday.getDate() === todayDay && memberBirthday.getMonth() + 1 === todayMonth;
-    });
-}
+//     return members.filter(member => {
+//         const memberBirthday = new Date(member.dob);
+//         return memberBirthday.getDate() === todayDay && memberBirthday.getMonth() + 1 === todayMonth;
+//     });
+// }

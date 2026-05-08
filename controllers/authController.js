@@ -463,6 +463,7 @@ export const userLogin = async (req, res) => {
         const payload = {
             name: user.name,
             email: user.email,
+            userId: user._id,
             role: 'user', // Hardcoded as userSchema does not have a role field
             gym_id: user.gym_id
         }
