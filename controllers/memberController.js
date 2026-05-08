@@ -421,7 +421,7 @@ export const updateMember = async (req, res) => {
       const duplicate = await User.findOne({
         _id: { $ne: req.params.id },
         gym_id: member.gym_id,
-        serial_no: updateData.roll_no
+        serial_no: updateData.serial_no
       });
       if (duplicate) {
         return res.status(400).json({ success: false, message: 'Another member with this serial number already exists in this gym' });
