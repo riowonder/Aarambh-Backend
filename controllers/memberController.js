@@ -416,8 +416,8 @@ export const updateMember = async (req, res) => {
       return res.status(404).json({ success: false, message: 'Member not found' });
     }
 
-    // 2. Check for duplicate roll_no if being updated
-    if (updateData.roll_no) {
+    // 2. Check for duplicate serial_no if being updated
+    if (updateData.serial_no) {
       const duplicate = await User.findOne({
         _id: { $ne: req.params.id },
         gym_id: member.gym_id,
