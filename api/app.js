@@ -13,7 +13,7 @@ import userRoutes from '../routes/userRoutes.js';
 import dns from "dns"
 
 //CHANGE DNS
-// dns.setServers(["1.1.1.1", "8.8.8.8"]);
+dns.setServers(["1.1.1.1", "8.8.8.8"]);
 
 dotenv.config();
 
@@ -31,9 +31,9 @@ const corsOptions = {
     "https://aarambh-frontend.vercel.app",
     "http://localhost:5173"
   ],
-  methods: ["GET","POST","PUT","DELETE","PATCH","HEAD"],
+  methods: ["GET","POST","PUT","DELETE","PATCH","HEAD","OPTIONS"],
   credentials: true,
-  allowedHeaders: ["Content-Type","Authorization","Access-Control-Allow-Credentials"]
+  allowedHeaders: ["Content-Type","Authorization"]
 };
 app.use(cors(corsOptions));
 
