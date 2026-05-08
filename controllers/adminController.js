@@ -188,6 +188,7 @@ export const approveUser = async (req, res) => {
     const name = user.name;
     const email = user.email;
     const dobRaw = user.dob;
+    const phone_number = user.phone_number;
     let dob = null;
     if (dobRaw) {
       const dateObj = dobRaw instanceof Date ? dobRaw : new Date(dobRaw);
@@ -200,7 +201,7 @@ export const approveUser = async (req, res) => {
     }
     
     if(email && email.trim() !== "") {
-      await sendApprovalEmail(email, name, dob);
+      await sendApprovalEmail(email, name, dob, phone_number);
     }
 
     // send payment success email
@@ -208,7 +209,7 @@ export const approveUser = async (req, res) => {
 
     if (email && email.trim() !== "" && subscriptionDetails) {
       const { plan, amount, start_date, extra_days, end_date } = subscriptionDetails;
-      await sendPaymentMail(plan, amount, start_date, extra_days, end_date, email, name, dob);
+      await sendPaymentMail(plan, amount, start_date, extra_days, end_date, email, name, dob, phone_number);
     }
 
 

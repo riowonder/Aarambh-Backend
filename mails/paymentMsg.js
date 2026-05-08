@@ -10,7 +10,8 @@ export const sendPaymentMail = async (
     end_date,
     email,
     name,
-    dob
+    dob,
+    phone_number
 ) => {
     // Format dates to Indian format (DD/MM/YYYY)
     const formatDate = (date) => {
@@ -158,10 +159,10 @@ export const sendPaymentMail = async (
                                                         <tr>
                                                             <td style="padding: 12px 0; border-bottom: 1px solid rgba(147, 197, 253, 0.5);">
                                                                 <p style="margin: 0; color: #1e40af; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px;">
-                                                                    Email
+                                                                    Phone Number
                                                                 </p>
                                                                 <p style="margin: 6px 0 0 0; color: #1e3a8a; font-size: 16px; font-weight: 600;">
-                                                                    ${email}
+                                                                    ${phone_number}
                                                                 </p>
                                                             </td>
                                                         </tr>
@@ -184,7 +185,7 @@ export const sendPaymentMail = async (
                                         <table width="100%" cellpadding="0" cellspacing="0" style="margin-bottom: 32px;">
                                             <tr>
                                                 <td align="center">
-                                                    <a href="http://localhost:5173/user-login" style="display: inline-block; background-color: #10b981; color: #ffffff; padding: 16px 40px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; letter-spacing: 0.3px;">
+                                                    <a href="https://aarambhfitness.in/user-login" style="display: inline-block; background-color: #10b981; color: #ffffff; padding: 16px 40px; border-radius: 8px; text-decoration: none; font-weight: 600; font-size: 16px; letter-spacing: 0.3px;">
                                                         Login to Your Account
                                                     </a>
                                                 </td>

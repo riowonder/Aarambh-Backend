@@ -2,7 +2,7 @@ import { Resend } from "resend";
 
 const resend = new Resend(process.env.RESEND_API_KEY);
 
-export const sendApprovalEmail = async (email, name, dob) => {
+export const sendApprovalEmail = async (email, name, dob, phone_number) => {
     const mailOptions = {
         from: `"Aarambh Fitness" <${process.env.OTP_EMAIL}>`,
         to: email,
@@ -57,10 +57,10 @@ export const sendApprovalEmail = async (email, name, dob) => {
                                                         <tr>
                                                             <td style="padding: 12px 0; border-bottom: 1px solid #e5e7eb;">
                                                                 <p style="margin: 0; color: #6b7280; font-size: 13px; font-weight: 500; text-transform: uppercase; letter-spacing: 0.3px;">
-                                                                    Email
+                                                                    Phone Number
                                                                 </p>
                                                                 <p style="margin: 6px 0 0 0; color: #1d1d1f; font-size: 16px; font-weight: 600;">
-                                                                    ${email}
+                                                                    ${phone_number}
                                                                 </p>
                                                             </td>
                                                         </tr>
