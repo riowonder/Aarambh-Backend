@@ -11,7 +11,7 @@ router.put('/update-gym-name', authenticate, requireAdmin, updateGymName);
 router.post('/invite-manager', authenticate, requireAdmin, inviteManager);
 
 // Pending Approvals data
-router.get('/pending-user-approvals', authenticate, requireAdmin, pendingUserApprovalRequestData);
+router.get('/pending-user-approvals', pendingUserApprovalRequestData);
 
 // Approve user (Admin only)
 router.post('/approve-user/:userId', authenticate, requireAdmin, approveUser);

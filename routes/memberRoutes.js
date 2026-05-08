@@ -22,7 +22,7 @@ router.get('/:id', authenticate, requireManagerOrAdmin, memberController.getMemb
 router.put('/:id', authenticate, requireManagerOrAdmin, upload.single('image'), memberController.updateMember);
 
 // Subscription routes
-router.post('/:userId/subscription', authenticate, requireManagerOrAdmin, memberController.addSubscription);
+router.post('/:userId/subscription', memberController.addSubscription);
 router.get('/:userId/subscriptions', authenticate, requireManagerOrAdmin, memberController.getSubscriptions);
 router.put('/subscription/:subscriptionId', authenticate, requireManagerOrAdmin, memberController.updateSubscription);
 router.delete('/subscription/:subscriptionId', authenticate, requireManagerOrAdmin, memberController.deleteSubscription);

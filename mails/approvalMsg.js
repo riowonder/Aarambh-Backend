@@ -33,7 +33,7 @@ export const sendApprovalEmail = async (email, name, dob) => {
                 </p>
 
                 <div style="text-align: center; margin: 25px 0;">
-                    <a href="http://localhost:5173/user-login" style="background-color: #2563eb; color: #ffffff; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">
+                    <a href="https://aarambhfitness.in/user-login" style="background-color: #2563eb; color: #ffffff; padding: 12px 20px; border-radius: 6px; text-decoration: none; font-weight: 500;">
                         Login to Your Account
                     </a>
                 </div>

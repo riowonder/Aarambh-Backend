@@ -4,6 +4,8 @@ import bcrypt from 'bcrypt';
 import { sendInvitation } from '../utils/otp.js';
 import User from '../models/user.js'
 import { sendApprovalEmail } from '../mails/approvalMsg.js';
+import Subscription from '../models/subscription.js';
+import { sendPaymentMail } from '../mails/paymentMsg.js';
 
 // ...existing code...
 
@@ -196,10 +198,19 @@ export const approveUser = async (req, res) => {
       dob = `${dd}/${mm}/${yyyy}`; // e.g. "26/05/2002"
       }
     }
-
+    
     if(email && email.trim() !== "") {
       await sendApprovalEmail(email, name, dob);
     }
+
+    // send payment success email
+    const subscriptionDetails = await Subscription.findOne({ user: user._id });
+
+    if (email && email.trim() !== "" && subscriptionDetails) {
+      const { plan, amount, start_date, extra_days, end_date } = subscriptionDetails;
+      await sendPaymentMail(plan, amount, start_date, extra_days, end_date, email, name, dob);
+    }
+
 
     res.status(200).json({
       success: true,
@@ -261,10 +272,16 @@ export const pendingUserApprovalRequestData = async (req, res) => {
   try {
     const pendingUsers = await User.find({ is_approved: false });
 
+    // also send the subscription details merged with each user
+    const subscriptions = await Subscription.find({ userId: { $in: pendingUsers.map(user => user._id) } });
+
     res.status(200).json({
       success: true,
       message: 'Pending user approval requests retrieved successfully',
-      data: pendingUsers
+      data: pendingUsers.map(user => ({
+        ...user.toObject(),
+        subscription: subscriptions.find(sub => sub.user.equals(user._id)) || null
+      })),
     });
 
   } catch (error) {
