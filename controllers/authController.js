@@ -490,8 +490,10 @@ export const userRegister = async (req, res) => {
 
         console.log(req.body);
 
+        const gym_id = process.env.GYM_ID; // Use the gym ID from environment variable
+
         // Check if user already exists
-        const existingUser = await User.findOne({ phone_number: phone });
+        const existingUser = await User.findOne({ phone_number: phone, gym_id });
         if (existingUser) {
             return res.status(409).json({ success: false, message: "User already exists" });
         }
@@ -499,8 +501,6 @@ export const userRegister = async (req, res) => {
         // get the gym_id  (fix this, decrypt the hash before comparing......)
         // const gym_details = await Admin.findOne({ security_hash: process.env.ADMIN_SECURITY_HASH }).select("_id");
         // const gym_id = gym_details._id;
-
-        const gym_id = process.env.GYM_ID; // Use the gym ID from environment variable
 
         // Upload image to Cloudinary (if provided)
         let imageUrl = '';
