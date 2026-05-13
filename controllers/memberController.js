@@ -501,14 +501,21 @@ export const searchMembers = async (req, res) => {
 
     // Add search conditions if query exists
     if (q && q.trim()) {
-      const regex = new RegExp(q, 'i');
-      query.$or = [
-        { name: regex },
-        { roll_no: regex },
-        { phone_number: regex },
-        { gender: regex },
-        { address: regex }
-      ];
+      const trimmed = q.trim();
+      // If the query is purely numeric, treat it as a serial number lookup.
+      if (/^\d+$/.test(trimmed)) {
+        query.$or = [
+          { serial_no: trimmed }
+        ];
+      } else {
+        const regex = new RegExp(trimmed, 'i');
+        query.$or = [
+          { name: regex },
+          { phone_number: regex },
+          { gender: regex },
+          { address: regex }
+        ];
+      }
     }
 
     // Get members with search and populate subscriptions
