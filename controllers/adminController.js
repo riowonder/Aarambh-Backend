@@ -271,7 +271,8 @@ export const rejectUser = async (req, res) => {
 
 export const pendingUserApprovalRequestData = async (req, res) => {
   try {
-    const pendingUsers = await User.find({ is_approved: false });
+    const gym_id = process.env.GYM_ID; // Assuming gym_id is stored in environment variable
+    const pendingUsers = await User.find({ is_approved: false, gym_id });
 
     // also send the subscription details merged with each user
     const subscriptions = await Subscription.find({ userId: { $in: pendingUsers.map(user => user._id) } });
