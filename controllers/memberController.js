@@ -492,7 +492,6 @@ export const updateMember = async (req, res) => {
 export const searchMembers = async (req, res) => {
   try {
     const { q, filter = 'all' } = req.query;
-    console.log('Search query:', q, 'Filter:', filter);
 
     const gymId = req.user.gym_id;
 
